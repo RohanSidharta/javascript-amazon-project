@@ -1,4 +1,5 @@
-
+import {cart} from '../data/cart.js';
+import {products} from '../data/products.js'
 
 let productsHTML = '';
 // now we have to loop through the array using for each loop
