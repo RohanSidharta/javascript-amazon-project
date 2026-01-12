@@ -1,5 +1,6 @@
-import {cart} from '../data/cart.js';
+import {cart,addToCart} from '../data/cart.js';
 import {products} from '../data/products.js'
+
 
 let productsHTML = '';
 // now we have to loop through the array using for each loop
@@ -65,32 +66,25 @@ products.forEach((product)=>{  //productsHTML will store the html code in it whi
 //now last step will be displayig=ng on webpage using DOM
 document.querySelector('.js-products-grid').innerHTML=productsHTML;
 //the above code will insert all the html into the class ja-products-grid so in html we dont need to write that code the javascript will write it for us
+
+
+
+
+function updateCartQuantity(){
+    let cartQuantity=0;
+    cart.forEach((cartItem)=>{
+        cartQuantity+=cartItem.quantity;            //this adds the total sum of quantity and stores it into cartQuantity variable
+    });
+
+    document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+   
+}
+
+
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{ //we are looping add to cart button and when it is clicked the data set in that buttton we will get
     button.addEventListener('click',()=>{   //this line will add a eventlistener to button whenever it is clicked the dataset of product will be added to the vaiable
         const productId=button.dataset.productId; //this line will get the product name from button element and store it in variable called productName
-
-        let matchingItem;   //this variable will store the matching items in cart if they matched it will increase the quantity 
-
-        cart.forEach((item)=>{     //it will compare the items in the product.js with the cart array in cart.js for match
-            if(productId===item.productId){  //this line will check whether there are matching items present in cart or not
-                matchingItem=item;      //it will update the matching item in this
-            }
-        });
-        if(matchingItem){         //if any matching item is found in the array of cart then the quantity of that item in incremented
-            matchingItem.quantity +=1;  //quantity in incremented
-        }else{
-            cart.push({            //if the match is not found that means the product is not added to cart from product.js so we will add a new item to the cart array
-                productId: productId,
-                quantity: 1
-            });
-        }
-        let cartQuantity=0;
-        cart.forEach((item)=>{
-            cartQuantity+=item.quantity;            //this adds the total sum of quantity and stores it into cartQuantity variable
-        });
-
-        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
-        console.log(cart);
-        console.log(cartQuantity);
+        addToCart(productId);         //productid parameter is getting value from above and using it in that function
+        updateCartQuantity();           //this will do the cartquantity count 
     });
 });
