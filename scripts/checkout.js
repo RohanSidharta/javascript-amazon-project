@@ -1,17 +1,17 @@
-import {cart} from '../data/cart.js';
+import {cart,removefromCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
-let cartSummaryHTML='';
+let cartSummaryHTML='';            //this variable will store the html code for products to display in checkout html
 
-cart.forEach((cartItem)=>{
-    const productId=cartItem.productId;
+cart.forEach((cartItem)=>{                  //looping through cart arrray to get the product.id of each product
+    const productId=cartItem.productId;         //stodring product.id of products into productId variable
 
-    let matchingProduct;
+    let matchingProduct;                 //this will store all the matching products in cart and and products array
 
- products.forEach((product)=>{
-        if(product.id === productId){
-            matchingProduct=product;
+ products.forEach((product)=>{                  //looping through product array to get the productid of every product in product array
+        if(product.id === productId){            //checking if the products in product array match with cart array
+            matchingProduct=product;                 //if the products match then the product details will be stored in matchingn product variable
         }
     })
     
@@ -40,7 +40,7 @@ cart.forEach((cartItem)=>{
                 <span class="update-quantity-link link-primary">
                     Update
                 </span>
-                <span class="delete-quantity-link link-primary">
+                <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
                     Delete
                 </span>
                 </div>
@@ -66,7 +66,7 @@ cart.forEach((cartItem)=>{
                 <div class="delivery-option">
                 <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
+                    name="delivery-option-${matchingProduct.id}">   
                 <div>
                     <div class="delivery-option-date">
                     Wednesday, June 15
@@ -92,10 +92,17 @@ cart.forEach((cartItem)=>{
             </div>
             </div>
   </div>`;
-
-
-  document.querySelector('.js-order-summary').innerHTML=cartSummaryHTML;
-  console.log(cartSummaryHTML);
-
 })
 
+
+document.querySelector('.js-order-summary').innerHTML=cartSummaryHTML;        //this will display the html code in the checkout.html page 
+//matchingproduct.id is used in the place of the class because every product needs to have a different class name for radio to work differently for each product product id is unique so it is used to display different radio for each product 
+    
+
+
+document.querySelectorAll('.js-delete-link').forEach((link)=>{
+    link.addEventListener('click',()=>{
+        const productId=link.dataset.productId;
+        removefromCart(productId);
+    });
+});

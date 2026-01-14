@@ -1,5 +1,5 @@
 
-export const cart=[{
+export let cart=[{
     productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 2
 },{
@@ -25,4 +25,15 @@ export function addToCart(productId){     //productid parameter is used in funct
             quantity: 1
         });
     }
+}
+
+export function removefromCart(productId){
+    const newCart=[];           //this will store all the products in cart except the one which we want to delete so the deleted one will not exist anymore in the cart
+    cart.forEach((cartItem)=>{
+        if(cartItem.productId !== productId){      //what this will do is if the we will be getting product id of the product we waant to delete from checkout.js 
+            newCart.push(cartItem);               //the products which are not matching with the productid will be pushed into the new array the one which we want to delete will be not pushed into newCart because its productid matches with the one we want to delete
+        }
+    });
+
+    cart=newCart;
 }
