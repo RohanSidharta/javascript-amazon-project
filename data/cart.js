@@ -1,12 +1,22 @@
 
-export let cart=[{
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2
-},{
-    productId:"15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity:1
-}];
+export let cart= JSON.parse(localStorage.getItem('cart'));       //getting cart array from local storage , localstorage saves data in the form of string so we are using json.parse to convert it from string to html
+    if(!cart){       //it will check whether the cart is empty or not if the cart is empty then it will resturn those default values
+        cart= [{
+            productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+            quantity: 2
+        },{
+            productId:"15b6fc6f-327a-4ec4-896f-486349e85a3d",
+            quantity:1
+        }];
+        
+    }
 
+
+
+function saveToStorage(){
+    localStorage.setItem('cart', JSON.stringify(cart));     //adding cart array to local storage so whenever we refresh the cart elements dont change
+}
+//using json.stringify because local storage saves the data in the form of strings
 
 export function addToCart(productId){     //productid parameter is used in function this function dows the matchingitem and quantity incrementatio of the cartquantity
     
@@ -25,7 +35,8 @@ export function addToCart(productId){     //productid parameter is used in funct
             quantity: 1
         });
     }
-}
+    saveToStorage();                 //calling this function so whenever a product is added to the cart the local storage gets updated
+} 
 
 export function removefromCart(productId){
     const newCart=[];           //this will store all the products in cart except the one which we want to delete so the deleted one will not exist anymore in the cart
@@ -36,4 +47,6 @@ export function removefromCart(productId){
     });
 
     cart=newCart;
+
+    saveToStorage();        //calling this function so whenever a product is removed from the cart the local storage gets updated
 }
