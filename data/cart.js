@@ -3,10 +3,12 @@ export let cart= JSON.parse(localStorage.getItem('cart'));       //getting cart 
     if(!cart){       //it will check whether the cart is empty or not if the cart is empty then it will resturn those default values
         cart= [{
             productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-            quantity: 2
+            quantity: 2,
+            deliveryOptionId:'1'
         },{
             productId:"15b6fc6f-327a-4ec4-896f-486349e85a3d",
-            quantity:1
+            quantity:1,
+            deliveryOptionId:'2'
         }];
         
     }
@@ -25,6 +27,7 @@ export function addToCart(productId){     //productid parameter is used in funct
     cart.forEach((cartItem)=>{     //it will compare the items in the product.js with the cart array in cart.js for match
         if(productId===cartItem.productId){  //this line will check whether there are matching items present in cart or not
             matchingItem=cartItem;      //it will update the matching item in this
+            
         }
     });
     if(matchingItem){         //if any matching item is found in the array of cart then the quantity of that item in incremented
@@ -32,7 +35,8 @@ export function addToCart(productId){     //productid parameter is used in funct
     }else{
         cart.push({            //if the match is not found that means the product is not added to cart from product.js so we will add a new item to the cart array
             productId: productId,
-            quantity: 1
+            quantity: 1,
+            deliveryOptionId:'1'
         });
     }
     saveToStorage();                 //calling this function so whenever a product is added to the cart the local storage gets updated

@@ -1,6 +1,12 @@
 import {cart,removefromCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';   //this will import dayjs function directly from external library
+import {deliveryOptions} from '../data/deliveryOptions.js';
+
+
+
 
 let cartSummaryHTML='';            //this variable will store the html code for products to display in checkout html
 
@@ -13,13 +19,29 @@ cart.forEach((cartItem)=>{                  //looping through cart arrray to get
         if(product.id === productId){            //checking if the products in product array match with cart array
             matchingProduct=product;                 //if the products match then the product details will be stored in matchingn product variable
         }
-    })
-    
+    });
+
+    const deliveryOptionId=cartItem.deliveryOptionId;
+
+    let deliveryOption;
+
+    deliveryOptions.forEach((option)=>{                 //this will loop througth deliveryoptions and matches the selected options id
+        if(option.id === deliveryOptionId){
+            deliveryOption = option;
+        }
+    });
+
+    const today=dayjs();               //this calculates the date of delivery and dormats it into readable form
+        const deliveryDate=today.add(deliveryOption.deliveryDays,'days');     //what this will do is add 7 days to the current date and show it in the html webpage
+        const dateString=deliveryDate.format('dddd, MMMM, D');                //the date is represented in the form of string like monday,october 9 thsi is easy to read
+    //dddd will print the day of the week like monday 
+    //MMMM will print the month in words
+    //D will print the date like 9 or 10 or 21
     
    cartSummaryHTML+= `
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
-            Delivery date: Tuesday, June 21
+            Delivery date: ${dateString}
             </div>
 
             <div class="cart-item-details-grid">
@@ -50,49 +72,47 @@ cart.forEach((cartItem)=>{                  //looping through cart arrray to get
                 <div class="delivery-options-title">
                 Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date">
-                    Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                    FREE Shipping
-                    </div>
-                </div>
-                </div>
-                <div class="delivery-option">
-                <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">   
-                <div>
-                    <div class="delivery-option-date">
-                    Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                    $4.99 - Shipping
-                    </div>
-                </div>
-                </div>
-                <div class="delivery-option">
-                <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                <div>
-                    <div class="delivery-option-date">
-                    Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                    $9.99 - Shipping
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-  </div>`;
+               ${deliveryOptionsHTML(matchingProduct,cartItem)}
+              </div>
+             </div>
+        </div>`;
 })
+
+function deliveryOptionsHTML(matchingProduct,cartItem){             //this function generates the html code for the delivery options inside checkout html for each product
+
+    let html='';
+
+    deliveryOptions.forEach((deliveryOption)=>{              //this code wil calculate the date according to the delivery option and format sit into readble form
+        const today=dayjs();                     //dayjs already consists methods called .add() and .format() which allows to add a certain period to the current date and format the dat ein readable format
+        const deliveryDate=today.add(deliveryOption.deliveryDays,'days');
+        const dateString=deliveryDate.format('dddd, MMMM, D');
+
+        const priceString = deliveryOption.priceCents=== 0                   //this gives the proce if they choose the first delivery option which takes time to deliver it is free but if not the charges will e applied
+            ? 'FREE'
+            : `$${formatCurrency(deliveryOption.priceCents)}-`;
+
+            const isChecked=deliveryOption.id===cartItem.deliveryOptionId;
+
+
+            html+=     //this variable contains the html code for each product
+                ` <div class="delivery-option">
+                        <input type="radio"
+                            ${isChecked ? 'checked' : ''}
+                            class="delivery-option-input"
+                            name="delivery-option-${matchingProduct.id}">
+                        <div>
+                            <div class="delivery-option-date">
+                            ${dateString}
+                            </div>
+                            <div class="delivery-option-price">
+                            ${priceString} - Shipping
+                            </div>
+                        </div>
+                        </div>`
+
+    });
+    return html;
+}
 
 
 document.querySelector('.js-order-summary').innerHTML=cartSummaryHTML;        //this will display the html code in the checkout.html page 
@@ -109,3 +129,10 @@ document.querySelectorAll('.js-delete-link').forEach((link)=>{
         container.remove();
     });
 });
+/*hello();    //this will use the function hello inside the external library which was loaded usi
+const today=dayjs();
+const deliveryDate=today.add(7,'days');      //this will add 7 days to today date 
+console.log(deliveryDate);
+console.log(deliveryDate.format('dddd, MMMM, D'));*/
+
+
