@@ -4,7 +4,7 @@ import { formatCurrency } from '../utils/money.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';   //this will import dayjs function directly from external library
 import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
-
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary(){
 
@@ -117,23 +117,21 @@ export function renderOrderSummary(){
             link.addEventListener('click',()=>{
                 const productId=link.dataset.productId;
                 removefromCart(productId);
+                
 
                 const container = document.querySelector(`.js-cart-item-container-${productId}`);
                 container.remove();
+                renderPaymentSummary();
             });
         });
-        /*hello();    //this will use the function hello inside the external library which was loaded usi
-        const today=dayjs();
-        const deliveryDate=today.add(7,'days');      //this will add 7 days to today date 
-        console.log(deliveryDate);
-        console.log(deliveryDate.format('dddd, MMMM, D'));*/
-
+    
 
         document.querySelectorAll('.js-delivery-option').forEach((element)=>{
             element.addEventListener('click',()=>{
                 const {productId,deliveryOptionId} = element.dataset;
                 updateDeliveryOption(productId,deliveryOptionId);
                 renderOrderSummary();
+                renderPaymentSummary();
             });
         });
     }
