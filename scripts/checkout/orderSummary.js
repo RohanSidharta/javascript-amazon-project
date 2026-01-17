@@ -6,7 +6,7 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';  
 import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 
-export function renderOrderSummary(){
+export function renderOrderSummary(){         //thsi functio will generate  the html for order summary it is used when the cart is updated or modified
 
         let cartSummaryHTML='';            //this variable will store the html code for products to display in checkout html
 
