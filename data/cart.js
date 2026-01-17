@@ -54,3 +54,17 @@ export function removefromCart(productId){
 
     saveToStorage();        //calling this function so whenever a product is removed from the cart the local storage gets updated
 }
+
+export function updateDeliveryOption(productId,deliveryOptionId){
+
+    let matchingItem;//this variable will store the matching items in cart if they matched it will increase the quantity 
+   
+    cart.forEach((cartItem)=>{     //it will compare the items in the product.js with the cart array in cart.js for match
+        if(productId===cartItem.productId){  //this line will check whether there are matching items present in cart or not
+            matchingItem=cartItem;      //it will update the matching item in this
+            
+        }
+    });
+    matchingItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+}
