@@ -1,3 +1,16 @@
+export function getProduct(productId){
+  let matchingProduct;                 //this will store all the matching products in cart and and products array
+
+  products.forEach((product)=>{                  //looping through product array to get the productid of every product in product array
+          if(product.id === productId){            //checking if the products in product array match with cart array
+              matchingProduct=product;                 //if the products match then the product details will be stored in matchingn product variable
+          }
+      });
+
+      return matchingProduct;
+}
+
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",

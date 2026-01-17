@@ -1,9 +1,10 @@
 import {cart,removefromCart,updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {products,getProduct} from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';   //this will import dayjs function directly from external library
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
+
 
 export function renderOrderSummary(){
 
@@ -12,24 +13,15 @@ export function renderOrderSummary(){
         cart.forEach((cartItem)=>{                  //looping through cart arrray to get the product.id of each product
             const productId=cartItem.productId;         //stodring product.id of products into productId variable
 
-            let matchingProduct;                 //this will store all the matching products in cart and and products array
+            const matchingProduct = getProduct(productId);                //this will store all the matching products in cart and and products array
 
-        products.forEach((product)=>{                  //looping through product array to get the productid of every product in product array
-                if(product.id === productId){            //checking if the products in product array match with cart array
-                    matchingProduct=product;                 //if the products match then the product details will be stored in matchingn product variable
-                }
-            });
+        
 
             const deliveryOptionId=cartItem.deliveryOptionId;
 
-            let deliveryOption;
+            const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-            deliveryOptions.forEach((option)=>{                 //this will loop througth deliveryoptions and matches the selected options id
-                if(option.id === deliveryOptionId){
-                    deliveryOption = option;
-                }
-            });
-
+           
             const today=dayjs();               //this calculates the date of delivery and dormats it into readable form
                 const deliveryDate=today.add(deliveryOption.deliveryDays,'days');     //what this will do is add 7 days to the current date and show it in the html webpage
                 const dateString=deliveryDate.format('dddd, MMMM, D');                //the date is represented in the form of string like monday,october 9 thsi is easy to read
