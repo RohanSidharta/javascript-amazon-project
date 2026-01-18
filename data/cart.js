@@ -1,5 +1,10 @@
 
-export let cart= JSON.parse(localStorage.getItem('cart'));       //getting cart array from local storage , localstorage saves data in the form of string so we are using json.parse to convert it from string to html
+export let cart;
+
+loadFromStorage();
+
+   export function loadFromStorage(){
+        cart= JSON.parse(localStorage.getItem('cart'));       //getting cart array from local storage , localstorage saves data in the form of string so we are using json.parse to convert it from string to html
     if(!cart){       //it will check whether the cart is empty or not if the cart is empty then it will resturn those default values
         cart= [{
             productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -11,6 +16,7 @@ export let cart= JSON.parse(localStorage.getItem('cart'));       //getting cart 
             deliveryOptionId:'2'
         }];
         
+    }
     }
 
 
