@@ -47,6 +47,8 @@ products.forEach((product)=>{  //productsHTML will store the html code in it whi
                 </select>
             </div>
 
+            ${product.extraInfoHTML()}
+
             <div class="product-spacer"></div>
 
             <div class="added-to-cart">
