@@ -1,14 +1,14 @@
 class Cart {
     cartItems;
-    localStorageKey;
+    #localStorageKey;
 
     constructor(localStorageKey){
-        this.localStorageKey = localStorageKey;
-        this.loadFromStorage();
+        this.#localStorageKey = localStorageKey;
+        this.#loadFromStorage();
     }
 
-        loadFromStorage(){
-            this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));       //getting cart array from local storage , localstorage saves data in the form of string so we are using json.parse to convert it from string to html
+        #loadFromStorage(){
+            this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));       //getting cart array from local storage , localstorage saves data in the form of string so we are using json.parse to convert it from string to html
         
             if(!this.cartItems){       //it will check whether the cart is empty or not if the cart is empty then it will resturn those default values
             this.cartItems = [{
@@ -25,7 +25,7 @@ class Cart {
     }
 
     saveToStorage(){
-        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));     //adding cart array to local storage so whenever we refresh the cart elements dont change
+        localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));     //adding cart array to local storage so whenever we refresh the cart elements dont change
     }
                                                                                     //using json.stringify because local storage saves the data in the form of strings
     addToCart(productId){     //productid parameter is used in function this function dows the matchingitem and quantity incrementatio of the cartquantity
@@ -85,6 +85,7 @@ class Cart {
 //each object we generate from the class is called instance of the class
 const cart = new Cart('cart-oop');           //this is how a class is called, we use new keywordi infront of the class name
 const businessCart = new Cart('cart-business');
+
 
 
 
