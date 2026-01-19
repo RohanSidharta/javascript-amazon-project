@@ -60,23 +60,34 @@ class Clothing extends Product{
  }
 
 }
+/*
+const date = new Date();
+console.log(date);
+console.log(date.toLocaleTimeString());
 
+console.log(this);       //this will be undefined because it is outside the class or object and it has nothing to point to
 
-const product1=new Product( {
-  id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-  name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-  rating: {
-    stars: 4.5,
-    count: 87
-  },
-  priceCents: 1090,
-  keywords: [
-    "socks",
-    "sports",
-    "apparel"
-  ]
-});
+const object2 = {
+  a: 2,
+  b: this.a              //this will point to object2
+};
+*/
+/*
+function logThis(){
+  console.log(this);
+}
+logThis();
+logThis.call('hello');                  //inside a function we can change 'this' to whatever we want by using .call() method
+
+this
+const object3={
+  method:()=>{
+    console.log(this);
+  }
+};
+object3.method();
+
+*/
 
 
 
@@ -745,3 +756,5 @@ export const products = [
   }
   return new Product(productDetails);
 });
+
+
