@@ -7,7 +7,8 @@ import { loadCart } from '../data/cart.js';
 
 async function loadPage(){        //it is a shortcut for previous promises
 
-
+try{
+    //throw 'error1';
     await loadProductsFetch();          //await lets us wait for that line to finish
 
     const value = await new Promise((resolve)=>{
@@ -16,6 +17,11 @@ async function loadPage(){        //it is a shortcut for previous promises
         });                 //payment summary is loaded it is the next step after loading 
        });
 
+
+} catch(error){
+    console.log('unexpected error, please try again later');
+}
+    
 
     renderOrderSummary();
     renderPaymentSummary();
