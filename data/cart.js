@@ -75,3 +75,15 @@ export function updateDeliveryOption(productId,deliveryOptionId){
     saveToStorage();
 }
 
+
+
+export function loadCart(fun){          // the fun parameter is actually storing a function in amazon.js which is renderProductsGrid
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', ()=>{
+    console.log(xhr.response);
+    fun();                     //calling the function renderProductsGrid using fun and a parameter
+  });
+  xhr.open('GET','https://supersimplebackend.dev/cart');
+  xhr.send();
+}
+
