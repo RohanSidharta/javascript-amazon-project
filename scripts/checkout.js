@@ -5,6 +5,27 @@ import { loadCart } from '../data/cart.js';
 //import '../data/cart-class.js';
 //import '../data/backend-practice.js';
 
+async function loadPage(){        //it is a shortcut for previous promises
+
+
+    await loadProductsFetch();          //await lets us wait for that line to finish
+
+    const value = await new Promise((resolve)=>{
+        loadCart(()=>{
+            resolve('value3');
+        });                 //payment summary is loaded it is the next step after loading 
+       });
+
+
+    renderOrderSummary();
+    renderPaymentSummary();
+}
+loadPage();
+
+
+
+
+/*
 Promise.all([
   loadProductsFetch(),
     new Promise((resolve)=>{
@@ -18,7 +39,7 @@ Promise.all([
     renderOrderSummary();
     renderPaymentSummary();
 });
-
+*/
 /*
 new Promise((resolve)=>{             //a promise is same as aa done() method in jasmine it waits until a code is loaded properly then goes to next step using resolve
     loadProducts(()=>{           //this loads alll the products in the page
